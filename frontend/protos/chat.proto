@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "users.proto";
+import "api.proto";
+
+package chat;
+
+service ChatService {
+    rpc GetConnectionsToChannel(Connect) returns (ConnectionsResponse) {};
+    rpc GetConnectionStream(Connect) returns (stream ConnectionsStreamResponse) {};
+    rpc GetChatStream(Connect) returns (stream Message) {};
+    rpc UpdateChannel(Message) returns (api.Empty) {};
+    rpc UpdateConnection(Connect) returns (api.Empty) {};
+}
+
+message Connect {
+    int32 user_id = 1;
+    bool active = 2;
+}
+
+message ConnectionsStreamResponse {
+    repeated users.User users = 1;
+}
+
+message ConnectionsResponse {
+    repeated users.User users = 1;
+}
+
+message ChatStreamResponse {
+    repeated Message messages = 1;
+}
+
+message Channel {
+    int32 id = 1;
+    string name = 2;
+}
+
+message Message {
+    int32 id = 1;
+    string content = 2;
+    string timestamp = 3;
+    int32 user_id = 4;
+}
+
+
+
